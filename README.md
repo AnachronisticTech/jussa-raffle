@@ -22,3 +22,7 @@ This is a static landing page for The Junior &amp; Senior School Alumni Associat
 ## Local preview
 
 Open `index.html` in your browser to preview the page locally. If you’re running a local web server, make sure the `resources/` and `images/` folders remain in the same relative locations.
+
+## GitHub Pages workflow
+
+The workflow defined in `.github/workflows/deploy.yml` builds and publishes the site to GitHub Pages. During the build it runs `scripts/generate-image-manifests.js`, which scans every `assets/**/images/` directory and writes an `index.json` file listing the contained images. This lets non-technical contributors add or remove images simply by dragging files into the `images/` folder—no manual manifest editing required. To test locally, run `node scripts/generate-image-manifests.js` before opening the site.

@@ -1,14 +1,16 @@
 const PRIZE_CSV_URL = "resources/raffle_prizes.csv";
-const IMAGE_BASE_PATH = "images/";
-const ASSET_BASE_PATH = "assets/";
+const PROVIDER_BASE_PATH = "assets/providers/";
+const IMAGE_ASSET_BASE_PATH = "assets/images/";
 const IMAGE_EXTENSIONS = ["png", "jpg", "jpeg", "gif", "webp", "avif", "svg"];
 const ICON_MAP = {
   web: { iconClass: "fa-solid fa-globe", label: "Visit website" },
   facebook: { iconClass: "fa-brands fa-facebook-f", label: "Visit Facebook" },
   instagram: { iconClass: "fa-brands fa-instagram", label: "Visit Instagram" },
+  tel: { iconClass: "fa-solid fa-phone", label: "Call" },
 };
 
-const assetCache = new Map();
+const providerAssetCache = new Map();
+const imageAssetCache = new Map();
 
 const prizeListElement = document.getElementById("prize-list");
 const prizeErrorElement = document.getElementById("prize-error");
@@ -22,9 +24,6 @@ const fieldLabels = {
   provider: "Provided by",
   value: "Value",
 };
-
-const imageFieldOptions = ["image", "image_file", "image_filename", "image name"];
-const linkFieldOptions = ["link", "url", "more_info", "more info"];
 
 init();
 
@@ -134,12 +133,20 @@ async function renderPrizes(records) {
   }
 
   const firstRecord = records[0] || {};
-  const imageKey = findFirstKey(firstRecord, imageFieldOptions);
-  const linkKey = findFirstKey(firstRecord, linkFieldOptions);
-  const pathKey = normaliseKey("Path");
+  const providerPathKey = normaliseKey("Provider Path");
+  const assetsPathKey = normaliseKey("Assets Path");
 
-  const assetPromises = records.map((record) => fetchPrizeAssets(record[pathKey]));
-  const assetsCollection = await Promise.all(assetPromises);
+  const providerAssetPromises = records.map((record) =>
+    fetchProviderAssets(record[providerPathKey])
+  );
+  const imageAssetPromises = records.map((record) =>
+    fetchImageAssets(record[assetsPathKey])
+  );
+
+  const [providerAssetCollection, galleryAssetCollection] = await Promise.all([
+    Promise.all(providerAssetPromises),
+    Promise.all(imageAssetPromises),
+  ]);
 
   const fragment = document.createDocumentFragment();
 
@@ -149,15 +156,16 @@ async function renderPrizes(records) {
       return;
     }
 
-    const assets = assetsCollection[index] || {};
+    const providerAssets = providerAssetCollection[index] || {};
+    const galleryAssets = galleryAssetCollection[index] || [];
     const providerName = record[normaliseKey("Provider")];
 
     const card = document.createElement("article");
     card.className = "prize-card";
     card.setAttribute("role", "listitem");
 
-    if (assets.logoUrl) {
-      const logoBlock = createLogoBlock(assets.logoUrl, providerName || itemName);
+    if (providerAssets.logoUrl) {
+      const logoBlock = createLogoBlock(providerAssets.logoUrl, providerName || itemName);
       card.classList.add("prize-card--has-logo");
       card.appendChild(logoBlock);
     }
@@ -174,24 +182,14 @@ async function renderPrizes(records) {
       content.appendChild(meta);
     }
 
-    const details = createDetailsList(record, assets, itemName, providerName);
+    const details = createDetailsList(record, providerAssets.links, providerName);
     if (details) {
       content.appendChild(details);
     }
 
-    if (linkKey && record[linkKey]) {
-      const link = document.createElement("a");
-      link.className = "prize-card__link";
-      link.href = record[linkKey];
-      link.target = "_blank";
-      link.rel = "noopener";
-      link.textContent = "More about this prize";
-      content.appendChild(link);
-    }
-
     card.appendChild(content);
 
-    const galleryImages = gatherGalleryImages(record, assets, imageKey);
+    const galleryImages = gatherGalleryImages(galleryAssets);
     if (galleryImages.length) {
       const media = createCarousel(galleryImages, itemName);
       if (media) {
@@ -235,7 +233,7 @@ function createMetaChips(record) {
   return container;
 }
 
-function createDetailsList(record, assets, itemName, providerName) {
+function createDetailsList(record, providerLinks, providerName) {
   const container = document.createElement("div");
   container.className = "prize-card__details";
 
@@ -255,7 +253,7 @@ function createDetailsList(record, assets, itemName, providerName) {
 
     container.appendChild(providerRow);
 
-    const linkIcons = createProviderLinks(assets.links);
+    const linkIcons = createProviderLinks(providerLinks);
     if (linkIcons) {
       container.appendChild(linkIcons);
     }
@@ -291,11 +289,18 @@ function createProviderLinks(links) {
   entries.forEach(([key, url]) => {
     const meta = ICON_MAP[key];
     const link = document.createElement("a");
-    link.href = url;
-    link.target = "_blank";
-    link.rel = "noopener";
+    const { href, target, rel } = buildLinkAttributes(key, url);
+    link.href = href;
+    if (target) {
+      link.target = target;
+    }
+    if (rel) {
+      link.rel = rel;
+    }
     link.className = "prize-card__provider-link";
-    link.setAttribute("aria-label", meta.label);
+    const label =
+      key === "tel" ? `${meta.label}: ${String(url).trim()}` : meta.label;
+    link.setAttribute("aria-label", label);
 
     const icon = document.createElement("i");
     icon.className = meta.iconClass;
@@ -320,25 +325,17 @@ function createLogoBlock(url, providerName) {
   return wrapper;
 }
 
-function gatherGalleryImages(record, assets, imageKey) {
+function gatherGalleryImages(galleryAssets) {
   const unique = new Set();
   const images = [];
 
-  if (assets && Array.isArray(assets.images)) {
-    assets.images.forEach((url) => {
+  if (Array.isArray(galleryAssets)) {
+    galleryAssets.forEach((url) => {
       if (url && !unique.has(url)) {
         unique.add(url);
         images.push(url);
       }
     });
-  }
-
-  if ((!images.length || images.length === 0) && imageKey && record[imageKey]) {
-    const fallback = buildAssetUrl(IMAGE_BASE_PATH, record[imageKey]);
-    if (fallback && !unique.has(fallback)) {
-      unique.add(fallback);
-      images.push(fallback);
-    }
   }
 
   return images;
@@ -506,31 +503,45 @@ function buildAssetUrl(basePath, filePath) {
   return `${normalizedBase}${suffix}`;
 }
 
-async function fetchPrizeAssets(rawPath) {
+async function fetchProviderAssets(rawPath) {
   if (!rawPath) {
-    return { links: null, logoUrl: null, images: [] };
+    return { links: null, logoUrl: null };
   }
 
   const sanitizedPath = sanitizeAssetPath(rawPath);
   if (!sanitizedPath) {
-    return { links: null, logoUrl: null, images: [] };
+    return { links: null, logoUrl: null };
   }
 
-  if (assetCache.has(sanitizedPath)) {
-    return assetCache.get(sanitizedPath);
+  if (providerAssetCache.has(sanitizedPath)) {
+    return providerAssetCache.get(sanitizedPath);
   }
 
-  const baseUrl = `${ASSET_BASE_PATH}${sanitizedPath}/`;
-
-  const [links, logoUrl, images] = await Promise.all([
-    fetchLinks(baseUrl),
-    locateLogo(baseUrl),
-    loadImageGallery(baseUrl),
-  ]);
-
-  const assets = { links, logoUrl, images };
-  assetCache.set(sanitizedPath, assets);
+  const baseUrl = `${PROVIDER_BASE_PATH}${sanitizedPath}/`;
+  const [links, logoUrl] = await Promise.all([fetchLinks(baseUrl), locateLogo(baseUrl)]);
+  const assets = { links, logoUrl };
+  providerAssetCache.set(sanitizedPath, assets);
   return assets;
+}
+
+async function fetchImageAssets(rawPath) {
+  if (!rawPath) {
+    return [];
+  }
+
+  const sanitizedPath = sanitizeAssetPath(rawPath);
+  if (!sanitizedPath) {
+    return [];
+  }
+
+  if (imageAssetCache.has(sanitizedPath)) {
+    return imageAssetCache.get(sanitizedPath);
+  }
+
+  const baseUrl = `${IMAGE_ASSET_BASE_PATH}${sanitizedPath}/`;
+  const images = await loadImagesFromDirectory(baseUrl);
+  imageAssetCache.set(sanitizedPath, images);
+  return images;
 }
 
 function sanitizeAssetPath(path) {
@@ -582,18 +593,13 @@ async function locateLogo(baseUrl) {
   return null;
 }
 
-async function loadImageGallery(baseUrl) {
-  const imagesUrl = buildAssetUrl(baseUrl, "images/");
-  if (!imagesUrl) {
-    return [];
-  }
-
-  const fromManifest = await fetchImageManifest(imagesUrl);
-  const filenames = fromManifest.length ? fromManifest : await fetchImagesFromListing(imagesUrl);
+async function loadImagesFromDirectory(baseUrl) {
+  const fromManifest = await fetchImageManifest(baseUrl);
+  const filenames = fromManifest.length ? fromManifest : await fetchImagesFromListing(baseUrl);
 
   const seen = new Set();
   return filenames
-    .map((name) => resolveImageUrl(imagesUrl, name))
+    .map((name) => resolveImageUrl(baseUrl, name))
     .filter((url) => {
       if (!url) {
         return false;
@@ -702,6 +708,23 @@ async function urlExists(url) {
   } catch (error) {
     return false;
   }
+}
+
+function buildLinkAttributes(key, value) {
+  if (key === "tel") {
+    const numeric = String(value || "")
+      .trim()
+      .replace(/[^\d+]/g, "");
+    const href = numeric ? `tel:${numeric}` : `tel:${value}`;
+    return { href, target: "", rel: "" };
+  }
+
+  const href = String(value || "").trim();
+  if (!href) {
+    return { href: "#", target: "", rel: "" };
+  }
+
+  return { href, target: "_blank", rel: "noopener" };
 }
 
 function formatCurrency(raw) {

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * Generates an index.json file for every images directory located inside
- * the assets folder. Each manifest contains a sorted array of image filenames.
+ * Generates an index.json file for every directory located inside
+ * assets/images. Each manifest contains a sorted array of image filenames.
  *
  * The script is idempotent and can be run locally or in CI. Existing manifests
  * are overwritten so removed images disappear from the index automatically.
@@ -13,6 +13,7 @@ const path = require("path");
 
 const PROJECT_ROOT = process.cwd();
 const ASSETS_DIR = path.join(PROJECT_ROOT, "assets");
+const IMAGES_ROOT = path.join(ASSETS_DIR, "images");
 const IMAGE_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".gif", ".webp", ".avif", ".svg"]);
 
 main().catch((error) => {
@@ -21,44 +22,41 @@ main().catch((error) => {
 });
 
 async function main() {
-  if (!fs.existsSync(ASSETS_DIR)) {
-    console.warn(`Assets directory not found at ${ASSETS_DIR}. Nothing to do.`);
+  if (!fs.existsSync(IMAGES_ROOT)) {
+    console.warn(`Images directory not found at ${IMAGES_ROOT}. Nothing to do.`);
     return;
   }
 
-  const imagesFolders = collectImagesFolders(ASSETS_DIR);
-  if (!imagesFolders.length) {
-    console.log("No image folders found under assets/. Nothing to do.");
+  const imageFolders = collectImageDirectories(IMAGES_ROOT);
+  if (!imageFolders.length) {
+    console.log("No image folders found under assets/images. Nothing to do.");
     return;
   }
 
-  imagesFolders.forEach(createManifestForFolder);
+  imageFolders.forEach(createManifestForFolder);
 }
 
-function collectImagesFolders(startDir) {
-  const results = [];
-  const queue = [startDir];
+function collectImageDirectories(rootDir) {
+  const results = new Set();
+  const queue = [rootDir];
 
   while (queue.length) {
     const currentDir = queue.pop();
+    results.add(currentDir);
+
     const entries = fs.readdirSync(currentDir, { withFileTypes: true });
 
     entries.forEach((entry) => {
-      if (!entry.isDirectory()) {
+      if (!entry.isDirectory() || entry.name.startsWith(".")) {
         return;
       }
 
       const entryPath = path.join(currentDir, entry.name);
-      if (entry.name.toLowerCase() === "images") {
-        results.push(entryPath);
-        return;
-      }
-
       queue.push(entryPath);
     });
   }
 
-  return results;
+  return Array.from(results);
 }
 
 function createManifestForFolder(folderPath) {

@@ -7,16 +7,12 @@ This is a static landing page for The Junior &amp; Senior School Alumni Associat
 1. Edit `resources/raffle_prizes.csv` and update or add rows. The header should include the following columns:
    - `Item` (required)
    - `Type`, `Quantity`, `Provider`, `Value` (optional but recommended)
-   - `Image` (optional — file name with extension, e.g. `spa-day.jpg`)
-   - `Path` (optional — folder name inside `assets/` that contains extra media for the prize)
-   - `Link` (optional — full URL for more information)
-2. Save new prize images in the `images/` directory if you are using the single `Image` column fallback. Filenames must match the values in the CSV.
-3. (Optional) Create an asset bundle for a prize by adding a folder at `assets/<Path>` containing any of:
-   - `links.json` — object with keys `web`, `facebook`, `instagram`; each renders a Font Awesome icon next to the provider.
-   - `logo.(png|jpg|jpeg|svg|webp)` — a provider logo shown beneath the value.
-   - `images/` — a collection of gallery images for the prize. Any filename and browser-friendly format works.  
-     - If your hosting platform does not expose directory listings (e.g. GitHub Pages), add an `index.json` file inside that `images/` folder listing the image filenames so the carousel can load them.
-   - Keep all prize asset folders inside the top-level `assets/` directory so the site can resolve paths correctly.
+   - `Provider Path` (optional — folder name inside `assets/providers/` with logo/links for the provider)
+   - `Assets Path` (optional — folder name inside `assets/images/` containing gallery images)
+2. (Optional) Add provider assets in `assets/providers/<Provider Path>`:
+   - `links.json` — object with keys `web`, `facebook`, `instagram`, `tel`; each renders a Font Awesome icon next to the provider (telephone numbers create `tel:` links automatically).
+   - `logo.(png|jpg|jpeg|svg|webp)` — a provider logo displayed on the card.
+3. (Optional) Add carousel images in `assets/images/<Assets Path>/`. Any filename and browser-friendly format works—the deployment workflow generates an `index.json` manifest automatically so non-technical contributors can drag-and-drop images.
 4. No build step is required. Commit the changes and push to GitHub; GitHub Pages will serve the updated site automatically.
 
 ## Local preview
@@ -25,4 +21,4 @@ Open `index.html` in your browser to preview the page locally. If you’re runni
 
 ## GitHub Pages workflow
 
-The workflow defined in `.github/workflows/deploy.yml` builds and publishes the site to GitHub Pages. During the build it runs `scripts/generate-image-manifests.js`, which scans every `assets/**/images/` directory and writes an `index.json` file listing the contained images. This lets non-technical contributors add or remove images simply by dragging files into the `images/` folder—no manual manifest editing required. To test locally, run `node scripts/generate-image-manifests.js` before opening the site.
+The workflow defined in `.github/workflows/deploy.yml` builds and publishes the site to GitHub Pages. During the build it runs `scripts/generate-image-manifests.js`, which scans every directory under `assets/images/` and writes an `index.json` file listing the contained images. This lets non-technical contributors add or remove carousel images simply by dragging files into the relevant folder—no manual manifest editing required. To test locally, run `node scripts/generate-image-manifests.js` before opening the site.

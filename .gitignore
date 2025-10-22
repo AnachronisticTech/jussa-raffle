@@ -59,3 +59,4 @@ Temporary Items
 
 # Generated image manifest files
 assets/images/**/index.json
+assets/providers/**/index.json

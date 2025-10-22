@@ -132,7 +132,6 @@ async function renderPrizes(records) {
     return;
   }
 
-  const firstRecord = records[0] || {};
   const providerPathKey = normaliseKey("Provider Path");
   const assetsPathKey = normaliseKey("Assets Path");
 
@@ -518,7 +517,14 @@ async function fetchProviderAssets(rawPath) {
   }
 
   const baseUrl = `${PROVIDER_BASE_PATH}${sanitizedPath}/`;
-  const [links, logoUrl] = await Promise.all([fetchLinks(baseUrl), locateLogo(baseUrl)]);
+  const [links, manifest] = await Promise.all([
+    fetchLinks(baseUrl),
+    fetchProviderManifest(baseUrl),
+  ]);
+
+  const logoUrl =
+    manifest && manifest.logo ? buildAssetUrl(baseUrl, manifest.logo) : null;
+
   const assets = { links, logoUrl };
   providerAssetCache.set(sanitizedPath, assets);
   return assets;
@@ -579,18 +585,28 @@ async function fetchLinks(baseUrl) {
   }
 }
 
-async function locateLogo(baseUrl) {
-  const extensions = ["png", "jpg", "jpeg", "svg", "webp"];
-
-  for (const ext of extensions) {
-    const relative = `logo.${ext}`;
-    const absoluteUrl = buildAssetUrl(baseUrl, relative);
-    if (await urlExists(absoluteUrl)) {
-      return absoluteUrl;
+async function fetchProviderManifest(baseUrl) {
+  try {
+    const manifestUrl = buildAssetUrl(baseUrl, "index.json");
+    const response = await fetch(manifestUrl);
+    if (!response.ok) {
+      return null;
     }
-  }
 
-  return null;
+    const data = await response.json();
+    if (!data || typeof data !== "object") {
+      return null;
+    }
+
+    const logo = typeof data.logo === "string" ? data.logo.trim() : "";
+    if (!logo) {
+      return null;
+    }
+
+    return { logo };
+  } catch (error) {
+    return null;
+  }
 }
 
 async function loadImagesFromDirectory(baseUrl) {
@@ -691,25 +707,6 @@ function resolveImageUrl(imagesUrl, candidate) {
 
   return buildAssetUrl(imagesUrl, trimmed);
 }
-
-async function urlExists(url) {
-  try {
-    const headResponse = await fetch(url, { method: "HEAD" });
-    if (headResponse.ok) {
-      return true;
-    }
-
-    if (headResponse.status === 405) {
-      const getResponse = await fetch(url, { method: "GET" });
-      return getResponse.ok;
-    }
-
-    return false;
-  } catch (error) {
-    return false;
-  }
-}
-
 function buildLinkAttributes(key, value) {
   if (key === "tel") {
     const numeric = String(value || "")

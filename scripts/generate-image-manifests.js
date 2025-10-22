@@ -14,7 +14,9 @@ const path = require("path");
 const PROJECT_ROOT = process.cwd();
 const ASSETS_DIR = path.join(PROJECT_ROOT, "assets");
 const IMAGES_ROOT = path.join(ASSETS_DIR, "images");
+const PROVIDERS_ROOT = path.join(ASSETS_DIR, "providers");
 const IMAGE_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".gif", ".webp", ".avif", ".svg"]);
+const LOGO_BASENAME = "logo";
 
 main().catch((error) => {
   console.error("Failed to generate image manifests:", error);
@@ -22,21 +24,41 @@ main().catch((error) => {
 });
 
 async function main() {
+  generateImageManifests();
+  generateProviderManifests();
+}
+
+function generateImageManifests() {
   if (!fs.existsSync(IMAGES_ROOT)) {
     console.warn(`Images directory not found at ${IMAGES_ROOT}. Nothing to do.`);
     return;
   }
 
-  const imageFolders = collectImageDirectories(IMAGES_ROOT);
+  const imageFolders = collectDirectories(IMAGES_ROOT);
   if (!imageFolders.length) {
     console.log("No image folders found under assets/images. Nothing to do.");
     return;
   }
 
-  imageFolders.forEach(createManifestForFolder);
+  imageFolders.forEach(createImageManifestForFolder);
 }
 
-function collectImageDirectories(rootDir) {
+function generateProviderManifests() {
+  if (!fs.existsSync(PROVIDERS_ROOT)) {
+    console.warn(`Providers directory not found at ${PROVIDERS_ROOT}. Nothing to do.`);
+    return;
+  }
+
+  const providerFolders = collectDirectories(PROVIDERS_ROOT);
+  if (!providerFolders.length) {
+    console.log("No provider folders found under assets/providers. Nothing to do.");
+    return;
+  }
+
+  providerFolders.forEach(createProviderManifestForFolder);
+}
+
+function collectDirectories(rootDir) {
   const results = new Set();
   const queue = [rootDir];
 
@@ -59,7 +81,7 @@ function collectImageDirectories(rootDir) {
   return Array.from(results);
 }
 
-function createManifestForFolder(folderPath) {
+function createImageManifestForFolder(folderPath) {
   const manifestPath = path.join(folderPath, "index.json");
   const entries = fs.readdirSync(folderPath, { withFileTypes: true });
 
@@ -74,6 +96,30 @@ function createManifestForFolder(folderPath) {
 
   const relativeFolder = path.relative(PROJECT_ROOT, folderPath);
   console.log(`Generated ${path.join(relativeFolder, "index.json")} with ${images.length} image(s).`);
+}
+
+function createProviderManifestForFolder(folderPath) {
+  const entries = fs.readdirSync(folderPath, { withFileTypes: true });
+  const logoCandidates = entries
+    .filter((entry) => entry.isFile())
+    .map((entry) => entry.name)
+    .filter((name) => !name.startsWith(".") && path.parse(name).name.toLowerCase() === LOGO_BASENAME)
+    .sort((a, b) => a.localeCompare(b, "en", { sensitivity: "base" }));
+
+  const manifestPath = path.join(folderPath, "index.json");
+  const relativeManifest = path.relative(PROJECT_ROOT, manifestPath);
+
+  if (!logoCandidates.length) {
+    if (fs.existsSync(manifestPath)) {
+      fs.unlinkSync(manifestPath);
+      console.log(`Removed ${relativeManifest} (no logo found).`);
+    }
+    return;
+  }
+
+  const manifest = { logo: logoCandidates[0] };
+  fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
+  console.log(`Generated ${relativeManifest} pointing to ${manifest.logo}.`);
 }
 
 function isImageFile(filename) {

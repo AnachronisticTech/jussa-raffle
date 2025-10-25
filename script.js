@@ -139,12 +139,8 @@ async function renderPrizes(records) {
   const providerPathKey = normaliseKey("Provider Path");
   const assetsPathKey = normaliseKey("Assets Path");
 
-  const providerPaths = records.map((record) =>
-    sanitizeAssetPath(getAssetPath(record, providerPathKey))
-  );
-  const galleryPaths = records.map((record) =>
-    sanitizeAssetPath(getAssetPath(record, assetsPathKey))
-  );
+  const providerPaths = records.map((record) => getAssetPath(record, providerPathKey));
+  const galleryPaths = records.map((record) => getAssetPath(record, assetsPathKey));
 
   const providerAssetPromises = providerPaths.map((path) =>
     path ? fetchProviderAssets(path) : Promise.resolve({ links: null, logoUrl: null })
@@ -158,7 +154,7 @@ async function renderPrizes(records) {
     Promise.all(imageAssetPromises),
   ]);
 
-  renderProviderGallery(records, providerAssetCollection, providerPaths);
+  renderProviderGallery(records, providerAssetCollection);
 
   const fragment = document.createDocumentFragment();
 
@@ -343,7 +339,7 @@ function createLogoBlock(url, providerName) {
   return wrapper;
 }
 
-function renderProviderGallery(records, providerAssetsCollection, providerPaths) {
+function renderProviderGallery(records, providerAssetsCollection) {
   const section = document.getElementById("provider-section");
   const container = document.getElementById("provider-logos");
   if (!section || !container) {
@@ -360,11 +356,7 @@ function renderProviderGallery(records, providerAssetsCollection, providerPaths)
     }
 
     const assets = providerAssetsCollection[index] || {};
-    const providerPath = providerPaths[index];
-    if (!providerPath) {
-      return;
-    }
-
+    const providerPath = assets.path;
     if (!assets.logoUrl) {
       return;
     }
@@ -581,51 +573,50 @@ function buildAssetUrl(basePath, filePath) {
 }
 
 async function fetchProviderAssets(rawPath) {
-  const trimmedPath = typeof rawPath === "string" ? sanitizeAssetPath(rawPath) : "";
-  if (!trimmedPath) {
-    return { links: null, logoUrl: null };
+  const raw = typeof rawPath === "string" ? rawPath.trim() : "";
+  const sanitizedPath = sanitizeAssetPath(raw);
+  if (!sanitizedPath) {
+    return { links: null, logoUrl: null, path: "" };
   }
 
-  if (providerAssetCache.has(trimmedPath)) {
-    return providerAssetCache.get(trimmedPath);
+  if (providerAssetCache.has(sanitizedPath)) {
+    return providerAssetCache.get(sanitizedPath);
   }
 
-  const baseUrl = buildAssetBase(PROVIDER_BASE_PATH, trimmedPath);
+  const baseUrl = buildAssetBase(PROVIDER_BASE_PATH, sanitizedPath);
   if (!baseUrl) {
-    return { links: null, logoUrl: null };
+    return { links: null, logoUrl: null, path: "" };
   }
   const [links, manifest] = await Promise.all([
     fetchLinks(baseUrl),
     fetchProviderManifest(baseUrl),
   ]);
 
-  let logoUrl = manifest && manifest.logo ? buildAssetUrl(baseUrl, manifest.logo) : null;
-  if (!logoUrl) {
-    logoUrl = await locateLogoFallback(baseUrl);
-  }
+  const logoUrl = manifest && manifest.logo ? buildAssetUrl(baseUrl, manifest.logo) : null;
 
-  const assets = { links, logoUrl };
-  providerAssetCache.set(trimmedPath, assets);
+  const assets = { links, logoUrl, path: sanitizedPath };
+  providerAssetCache.set(sanitizedPath, assets);
   return assets;
 }
 
 async function fetchImageAssets(rawPath) {
-  const trimmedPath = typeof rawPath === "string" ? sanitizeAssetPath(rawPath) : "";
-  if (!trimmedPath) {
+  const raw = typeof rawPath === "string" ? rawPath.trim() : "";
+  const sanitizedPath = sanitizeAssetPath(raw);
+  if (!sanitizedPath) {
     return [];
   }
 
-  if (imageAssetCache.has(trimmedPath)) {
-    return imageAssetCache.get(trimmedPath);
+  if (imageAssetCache.has(sanitizedPath)) {
+    return imageAssetCache.get(sanitizedPath);
   }
 
-  const baseUrl = buildAssetBase(IMAGE_ASSET_BASE_PATH, trimmedPath);
+  const baseUrl = buildAssetBase(IMAGE_ASSET_BASE_PATH, sanitizedPath);
   if (!baseUrl) {
     return [];
   }
 
   const images = await loadImagesFromDirectory(baseUrl);
-  imageAssetCache.set(trimmedPath, images);
+  imageAssetCache.set(sanitizedPath, images);
   return images;
 }
 

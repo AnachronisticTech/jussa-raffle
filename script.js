@@ -13,7 +13,7 @@ const providerAssetCache = new Map();
 const imageAssetCache = new Map();
 
 // Toggle sparkle overlay particles.
-const ENABLE_SPARKLES = true;
+const ENABLE_SPARKLES = false;
 
 const prizeListElement = document.getElementById("prize-list");
 const prizeErrorElement = document.getElementById("prize-error");

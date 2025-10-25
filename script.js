@@ -672,21 +672,22 @@ async function fetchProviderManifest(baseUrl) {
   try {
     const manifestUrl = buildAssetUrl(baseUrl, "index.json");
     const response = await fetch(manifestUrl);
-    if (!response.ok) {
-      return null;
+    if (response.ok) {
+      const data = await response.json();
+      if (data && typeof data === "object" && typeof data.logo === "string" && data.logo.trim()) {
+        return { logo: data.logo.trim() };
+      }
     }
 
-    const data = await response.json();
-    if (!data || typeof data !== "object") {
-      return null;
+    // Local fallback: assume single logo file in the directory.
+    if (window.location.protocol === "file:") {
+      const localLogo = await locateLogoFallback(baseUrl);
+      if (localLogo) {
+        return { logo: localLogo.replace(baseUrl, "") };
+      }
     }
 
-    const logo = typeof data.logo === "string" ? data.logo.trim() : "";
-    if (!logo) {
-      return null;
-    }
-
-    return { logo };
+    return null;
   } catch (error) {
     return null;
   }

@@ -139,11 +139,14 @@ async function renderPrizes(records) {
   const providerPathKey = normaliseKey("Provider Path");
   const assetsPathKey = normaliseKey("Assets Path");
 
-  const providerAssetPromises = records.map((record) =>
-    fetchProviderAssets(record[providerPathKey])
+  const providerPaths = records.map((record) => getAssetPath(record, providerPathKey));
+  const galleryPaths = records.map((record) => getAssetPath(record, assetsPathKey));
+
+  const providerAssetPromises = providerPaths.map((path) =>
+    path ? fetchProviderAssets(path) : Promise.resolve({ links: null, logoUrl: null })
   );
-  const imageAssetPromises = records.map((record) =>
-    fetchImageAssets(record[assetsPathKey])
+  const imageAssetPromises = galleryPaths.map((path) =>
+    path ? fetchImageAssets(path) : Promise.resolve([])
   );
 
   const [providerAssetCollection, galleryAssetCollection] = await Promise.all([
@@ -151,7 +154,7 @@ async function renderPrizes(records) {
     Promise.all(imageAssetPromises),
   ]);
 
-  renderProviderGallery(records, providerAssetCollection);
+  renderProviderGallery(records, providerAssetCollection, providerPaths);
 
   const fragment = document.createDocumentFragment();
 
@@ -169,18 +172,24 @@ async function renderPrizes(records) {
     card.className = "prize-card";
     card.setAttribute("role", "listitem");
 
-    if (providerAssets.logoUrl) {
-      const logoBlock = createLogoBlock(providerAssets.logoUrl, providerName || itemName);
-      card.classList.add("prize-card--has-logo");
-      card.appendChild(logoBlock);
-    }
-
     const content = document.createElement("div");
     content.className = "prize-card__content";
 
+    const header = document.createElement("div");
+    header.className = "prize-card__header";
+
+    if (providerAssets.logoUrl) {
+      const logoBlock = createLogoBlock(providerAssets.logoUrl, providerName || itemName);
+      header.appendChild(logoBlock);
+      card.classList.add("prize-card--has-logo");
+    }
+
     const heading = document.createElement("h3");
+    heading.className = "prize-card__title";
     heading.textContent = itemName;
-    content.appendChild(heading);
+    header.appendChild(heading);
+
+    content.appendChild(header);
 
     const meta = createMetaChips(record);
     if (meta) {
@@ -330,7 +339,7 @@ function createLogoBlock(url, providerName) {
   return wrapper;
 }
 
-function renderProviderGallery(records, providerAssetsCollection) {
+function renderProviderGallery(records, providerAssetsCollection, providerPaths) {
   const section = document.getElementById("provider-section");
   const container = document.getElementById("provider-logos");
   if (!section || !container) {
@@ -347,11 +356,16 @@ function renderProviderGallery(records, providerAssetsCollection) {
     }
 
     const assets = providerAssetsCollection[index] || {};
+    const providerPath = providerPaths[index];
+    if (!providerPath) {
+      return;
+    }
+
     if (!assets.logoUrl) {
       return;
     }
 
-    const key = `${providerName}|${assets.logoUrl}`;
+    const key = `${providerPath}|${assets.logoUrl}`;
     if (seen.has(key)) {
       return;
     }
@@ -393,6 +407,11 @@ function gatherGalleryImages(galleryAssets) {
   }
 
   return images;
+}
+
+function getAssetPath(record, key) {
+  const value = record[key];
+  return typeof value === "string" ? value.trim() : "";
 }
 
 function createCarousel(images, itemName) {
@@ -558,11 +577,12 @@ function buildAssetUrl(basePath, filePath) {
 }
 
 async function fetchProviderAssets(rawPath) {
-  if (!rawPath) {
+  const trimmedPath = typeof rawPath === "string" ? rawPath.trim() : "";
+  if (!trimmedPath) {
     return { links: null, logoUrl: null };
   }
 
-  const sanitizedPath = sanitizeAssetPath(rawPath);
+  const sanitizedPath = sanitizeAssetPath(trimmedPath);
   if (!sanitizedPath) {
     return { links: null, logoUrl: null };
   }

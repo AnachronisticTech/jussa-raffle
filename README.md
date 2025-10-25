@@ -13,7 +13,8 @@ This is a static landing page for The Junior &amp; Senior School Alumni Associat
    - `links.json` — object with keys `web`, `facebook`, `instagram`, `tel`; each renders a Font Awesome icon next to the provider (telephone numbers create `tel:` links automatically).
    - `logo.(png|jpg|jpeg|svg|webp)` — save the provider logo with this basename; the deployment workflow generates an `index.json` manifest that points to the correct file extension automatically.
 3. (Optional) Add carousel images in `assets/images/<Assets Path>/`. Any filename and browser-friendly format works—the deployment workflow generates an `index.json` manifest automatically so non-technical contributors can drag-and-drop images.
-4. No build step is required. Commit the changes and push to GitHub; GitHub Pages will serve the updated site automatically.
+4. Sparkle particles on the page can be disabled by setting `ENABLE_SPARKLES` to `false` in `script.js`.
+5. No build step is required. Commit the changes and push to GitHub; GitHub Pages will serve the updated site automatically.
 
 ## Local preview
 

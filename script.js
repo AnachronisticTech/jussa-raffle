@@ -12,6 +12,9 @@ const ICON_MAP = {
 const providerAssetCache = new Map();
 const imageAssetCache = new Map();
 
+// Toggle sparkle overlay particles.
+const ENABLE_SPARKLES = true;
+
 const prizeListElement = document.getElementById("prize-list");
 const prizeErrorElement = document.getElementById("prize-error");
 const currentYearElement = document.getElementById("current-year");
@@ -32,6 +35,7 @@ async function init() {
     const csvText = await fetchCsv(PRIZE_CSV_URL);
     const { records } = parseCsv(csvText);
     await renderPrizes(records);
+    createSparkles();
   } catch (error) {
     console.error(error);
     showPrizeError();
@@ -361,10 +365,6 @@ function renderProviderGallery(records, providerAssetsCollection) {
     img.alt = `${providerName} logo`;
     figure.appendChild(img);
 
-    const caption = document.createElement("figcaption");
-    caption.textContent = providerName;
-    figure.appendChild(caption);
-
     fragment.appendChild(figure);
   });
 
@@ -577,8 +577,10 @@ async function fetchProviderAssets(rawPath) {
     fetchProviderManifest(baseUrl),
   ]);
 
-  const logoUrl =
-    manifest && manifest.logo ? buildAssetUrl(baseUrl, manifest.logo) : null;
+  let logoUrl = manifest && manifest.logo ? buildAssetUrl(baseUrl, manifest.logo) : null;
+  if (!logoUrl) {
+    logoUrl = await locateLogoFallback(baseUrl);
+  }
 
   const assets = { links, logoUrl };
   providerAssetCache.set(sanitizedPath, assets);
@@ -662,6 +664,17 @@ async function fetchProviderManifest(baseUrl) {
   } catch (error) {
     return null;
   }
+}
+
+async function locateLogoFallback(baseUrl) {
+  const extensions = ["png", "jpg", "jpeg", "svg", "webp", "gif", "avif"];
+  for (const ext of extensions) {
+    const candidate = buildAssetUrl(baseUrl, `logo.${ext}`);
+    if (await urlExists(candidate)) {
+      return candidate;
+    }
+  }
+  return null;
 }
 
 async function loadImagesFromDirectory(baseUrl) {
@@ -762,6 +775,25 @@ function resolveImageUrl(imagesUrl, candidate) {
 
   return buildAssetUrl(imagesUrl, trimmed);
 }
+
+async function urlExists(url) {
+  try {
+    const headResponse = await fetch(url, { method: "HEAD" });
+    if (headResponse.ok) {
+      return true;
+    }
+
+    if (headResponse.status === 405) {
+      const getResponse = await fetch(url, { method: "GET" });
+      return getResponse.ok;
+    }
+
+    return false;
+  } catch (error) {
+    return false;
+  }
+}
+
 function buildLinkAttributes(key, value) {
   if (key === "tel") {
     const numeric = String(value || "")
@@ -824,4 +856,30 @@ function formatCurrency(raw) {
     minimumFractionDigits: numeric % 1 === 0 ? 0 : 2,
     maximumFractionDigits: 2,
   }).format(numeric);
+}
+
+function createSparkles() {
+  if (!ENABLE_SPARKLES) {
+    return;
+  }
+
+  if (document.querySelector(".sparkle-layer")) {
+    return;
+  }
+
+  const layer = document.createElement("div");
+  layer.className = "sparkle-layer";
+  const sparkleCount = 28;
+
+  for (let i = 0; i < sparkleCount; i += 1) {
+    const sparkle = document.createElement("span");
+    sparkle.className = "sparkle";
+    sparkle.style.left = `${Math.random() * 100}%`;
+    sparkle.style.top = `${Math.random() * 120}%`;
+    sparkle.style.animationDelay = `${Math.random() * 10}s`;
+    sparkle.style.animationDuration = `${10 + Math.random() * 10}s`;
+    layer.appendChild(sparkle);
+  }
+
+  document.body.appendChild(layer);
 }

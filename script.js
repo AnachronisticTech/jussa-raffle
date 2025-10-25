@@ -147,6 +147,8 @@ async function renderPrizes(records) {
     Promise.all(imageAssetPromises),
   ]);
 
+  renderProviderGallery(records, providerAssetCollection);
+
   const fragment = document.createDocumentFragment();
 
   records.forEach((record, index) => {
@@ -322,6 +324,59 @@ function createLogoBlock(url, providerName) {
 
   wrapper.appendChild(img);
   return wrapper;
+}
+
+function renderProviderGallery(records, providerAssetsCollection) {
+  const section = document.getElementById("provider-section");
+  const container = document.getElementById("provider-logos");
+  if (!section || !container) {
+    return;
+  }
+
+  const seen = new Set();
+  const fragment = document.createDocumentFragment();
+
+  records.forEach((record, index) => {
+    const providerName = record[normaliseKey("Provider")];
+    if (!providerName) {
+      return;
+    }
+
+    const assets = providerAssetsCollection[index] || {};
+    if (!assets.logoUrl) {
+      return;
+    }
+
+    const key = `${providerName}|${assets.logoUrl}`;
+    if (seen.has(key)) {
+      return;
+    }
+    seen.add(key);
+
+    const figure = document.createElement("figure");
+    figure.className = "provider-logo";
+
+    const img = document.createElement("img");
+    img.src = assets.logoUrl;
+    img.alt = `${providerName} logo`;
+    figure.appendChild(img);
+
+    const caption = document.createElement("figcaption");
+    caption.textContent = providerName;
+    figure.appendChild(caption);
+
+    fragment.appendChild(figure);
+  });
+
+  if (!seen.size) {
+    section.hidden = true;
+    container.innerHTML = "";
+    return;
+  }
+
+  container.innerHTML = "";
+  container.appendChild(fragment);
+  section.hidden = false;
 }
 
 function gatherGalleryImages(galleryAssets) {

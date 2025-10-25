@@ -139,8 +139,12 @@ async function renderPrizes(records) {
   const providerPathKey = normaliseKey("Provider Path");
   const assetsPathKey = normaliseKey("Assets Path");
 
-  const providerPaths = records.map((record) => getAssetPath(record, providerPathKey));
-  const galleryPaths = records.map((record) => getAssetPath(record, assetsPathKey));
+  const providerPaths = records.map((record) =>
+    sanitizeAssetPath(getAssetPath(record, providerPathKey))
+  );
+  const galleryPaths = records.map((record) =>
+    sanitizeAssetPath(getAssetPath(record, assetsPathKey))
+  );
 
   const providerAssetPromises = providerPaths.map((path) =>
     path ? fetchProviderAssets(path) : Promise.resolve({ links: null, logoUrl: null })
@@ -577,21 +581,19 @@ function buildAssetUrl(basePath, filePath) {
 }
 
 async function fetchProviderAssets(rawPath) {
-  const trimmedPath = typeof rawPath === "string" ? rawPath.trim() : "";
+  const trimmedPath = typeof rawPath === "string" ? sanitizeAssetPath(rawPath) : "";
   if (!trimmedPath) {
     return { links: null, logoUrl: null };
   }
 
-  const sanitizedPath = sanitizeAssetPath(trimmedPath);
-  if (!sanitizedPath) {
+  if (providerAssetCache.has(trimmedPath)) {
+    return providerAssetCache.get(trimmedPath);
+  }
+
+  const baseUrl = buildAssetBase(PROVIDER_BASE_PATH, trimmedPath);
+  if (!baseUrl) {
     return { links: null, logoUrl: null };
   }
-
-  if (providerAssetCache.has(sanitizedPath)) {
-    return providerAssetCache.get(sanitizedPath);
-  }
-
-  const baseUrl = `${PROVIDER_BASE_PATH}${sanitizedPath}/`;
   const [links, manifest] = await Promise.all([
     fetchLinks(baseUrl),
     fetchProviderManifest(baseUrl),
@@ -603,27 +605,27 @@ async function fetchProviderAssets(rawPath) {
   }
 
   const assets = { links, logoUrl };
-  providerAssetCache.set(sanitizedPath, assets);
+  providerAssetCache.set(trimmedPath, assets);
   return assets;
 }
 
 async function fetchImageAssets(rawPath) {
-  if (!rawPath) {
+  const trimmedPath = typeof rawPath === "string" ? sanitizeAssetPath(rawPath) : "";
+  if (!trimmedPath) {
     return [];
   }
 
-  const sanitizedPath = sanitizeAssetPath(rawPath);
-  if (!sanitizedPath) {
+  if (imageAssetCache.has(trimmedPath)) {
+    return imageAssetCache.get(trimmedPath);
+  }
+
+  const baseUrl = buildAssetBase(IMAGE_ASSET_BASE_PATH, trimmedPath);
+  if (!baseUrl) {
     return [];
   }
 
-  if (imageAssetCache.has(sanitizedPath)) {
-    return imageAssetCache.get(sanitizedPath);
-  }
-
-  const baseUrl = `${IMAGE_ASSET_BASE_PATH}${sanitizedPath}/`;
   const images = await loadImagesFromDirectory(baseUrl);
-  imageAssetCache.set(sanitizedPath, images);
+  imageAssetCache.set(trimmedPath, images);
   return images;
 }
 
@@ -634,6 +636,19 @@ function sanitizeAssetPath(path) {
     .replace(/(\.\.\/|\/\.\.)/g, "")
     .replace(/^\/+/, "")
     .replace(/\/+$/, "");
+}
+
+function buildAssetBase(root, relativePath) {
+  const sanitized = sanitizeAssetPath(relativePath);
+  if (!sanitized) {
+    return "";
+  }
+  const segments = sanitized
+    .split("/")
+    .filter(Boolean)
+    .map((segment) => encodeURIComponent(segment));
+  const normalizedRoot = root.endsWith("/") ? root : `${root}/`;
+  return `${normalizedRoot}${segments.join("/")}/`;
 }
 
 async function fetchLinks(baseUrl) {

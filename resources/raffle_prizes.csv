@@ -1,4 +1,4 @@
-﻿Item,Type,Quantity,Provider,Value,Provider Path,Assets Path
+Item,Type,Quantity,Provider,Value,Provider Path,Assets Path
 Travel Voucher,Voucher,2,Roady Travels,100,roady,
 Voucher,Voucher,1,G Stephanides Son & Co. Ltd,100,g_stephanides,
 Mum Support Group Voucher,Voucher,1,MommyBox Cyprus,70,mommybox,
@@ -7,14 +7,14 @@ Eurx,Voucher,1,MaxiMa Boutiques Cyprus,,maxima_boutiques,
 Gift (voucher or item TBC),TBC,1,Labels Boutique,,labels_boutique,
 "Large, hand-painted ceramic pasta/salad bowl",Item,1,Fingerprints,90,,fingerprints
 Limited edition bengal tiger white sweatshirt,Item,1,Ero & Constantinos,75,ero,ero_bengal
-5L olive oil + marmalade,Food,1,Akaki Grove,126,,
+5L olive oil + marmalade,Food,1,Akaki Grove,126,akaki_grove,
 Framed photograph,Item,1,Joanna Solomou,200,,
-Garden voucher,Voucher,1,Solomou Garden Centre,,solomou,
+Garden voucher,Voucher,2,Solomou Garden Centre,20,solomou,
 Jewellery voucher,Voucher,1,Nicole Tsiallis,,nicole_tsiallis,
 Bag,Item,1,dD Designs,,dd_designs,
 One custom t-shirt,Voucher,1,Oli & Wawa,40,oli_wawa,
 Artwork,Item,1,Pops & Bubbles,250,pops_bubbles,
-Ice cream voucher,Voucher,3,Papafilipou,8,papafilipou,
+Ice cream (850ml tub) voucher,Voucher,3,Papafilipou,,papafilipou,
 Stay at Jubilee Hotel,Voucher,1,Jubilee Hotel,,jubilee_hotel,
 Hamper,Item,1,Marks & Spencers,,,
 TBC,,,Yolanda's Chocolatiers,,yiolandas_chocolatiers,
@@ -42,3 +42,4 @@ Crowne Plaza Limassol stay,Voucher,1,Crowne Plaza Limassol,,,
 Scarf,Item,1,Queendom of Oeuf,40,oeuf,oeuf_scarf
 Small hamper with festive treats and Christmas Barmbrack,Food,1,Kneaded Bakes,,kneaded_bakes,
 Voucher,Voucher,,Beauty in the City,,beauty_city,
+Voucher,Voucher,1,Renos Agrotis Bookstore,100,agrotis,

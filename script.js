@@ -7,6 +7,7 @@ const ICON_MAP = {
   facebook: { iconClass: "fa-brands fa-facebook-f", label: "Visit Facebook" },
   instagram: { iconClass: "fa-brands fa-instagram", label: "Visit Instagram" },
   tel: { iconClass: "fa-solid fa-phone", label: "Call" },
+  email: { iconClass: "fa-solid fa-at", label: "e-mail" },
 };
 
 const providerAssetCache = new Map();
@@ -827,6 +828,12 @@ function buildLinkAttributes(key, value) {
       .trim()
       .replace(/[^\d+]/g, "");
     const href = numeric ? `tel:${numeric}` : `tel:${value}`;
+    return { href, target: "", rel: "" };
+  }
+
+  if (key === "email") {
+    const email = String(value || "").trim();
+    const href = email ? `mailto:${email}` : `mailto:`;
     return { href, target: "", rel: "" };
   }
 

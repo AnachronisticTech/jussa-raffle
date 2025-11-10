@@ -16,7 +16,7 @@ One custom t-shirt,Voucher,1,Oli & Wawa,40,oli_wawa,
 Artwork,Item,1,Pops & Bubbles,250,pops_bubbles,
 Ice cream (850ml tub) voucher,Voucher,3,Papafilipou,,papafilipou,
 Stay at Jubilee Hotel,Voucher,1,Jubilee Hotel,,jubilee_hotel,
-Hamper,Item,1,Marks & Spencers,,,
+Hamper,Item,1,Marks & Spencers,,ms,
 TBC,,,Yolanda's Chocolatiers,,yiolandas_chocolatiers,
 Illustration/print,Item,1,Toff Mazery creator of Wolf Boy,200,toff,
 Cosmetics goodie bag,Item,1,mpmimports,50,mpmimports,mpm_bag
@@ -43,8 +43,8 @@ Scarf,Item,1,Queendom of Oeuf,40,oeuf,oeuf_scarf
 Small hamper with festive treats and Christmas Barmbrack,Food,1,Kneaded Bakes,,kneaded_bakes,
 Voucher,Voucher,,Beauty in the City,,beauty_city,
 Voucher,Voucher,1,Renos Agrotis Bookstore,100,agrotis,
-Voucher,Voucher,2,Marks & Spencers,50,,
+Voucher,Voucher,2,Marks & Spencers,50,ms,
 12 Beers of Christmas box,Food,1,Brewfellas & Crossline Brewing,85,brewfellas,brewfellas_beers
-Alumni Bundle (large black crewneck + 3 tote bags),Item,1,Junior and Senior School Alumni,66,jussaa,jussaa_bundle_2
-Alumni Bundle (large white hoodie + 2 tote bags + USB),Item,1,Junior and Senior School Alumni,74,jussaa,jussaa_bundle_1
+Alumni Bundle (large black crewneck + 3 tote bags),Item,1,Junior and Senior School Alumni,66,jussaa,jussaa_bundle_a
+Alumni Bundle (large white hoodie + 2 tote bags + USB),Item,1,Junior and Senior School Alumni,74,jussaa,jussaa_bundle_b
 Voucher,Voucher,1,Powerflex,100,powerflex,

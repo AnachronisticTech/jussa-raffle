@@ -4,7 +4,7 @@ Voucher,Voucher,1,G Stephanides Son & Co. Ltd,100,g_stephanides,
 Mum Support Group Voucher,Voucher,1,MommyBox Cyprus,70,mommybox,
 Christmas Panettone,Food,1,Kantina,40,kantina,
 Eurx,Voucher,1,MaxiMa Boutiques Cyprus,,maxima_boutiques,
-Gift (voucher or item TBC),TBC,1,Labels Boutique,,labels_boutique,
+Voucher,Voucher,2,Labels Boutique,60,labels_boutique,
 "Large, hand-painted ceramic pasta/salad bowl",Item,1,Fingerprints,90,,fingerprints
 Limited edition bengal tiger white sweatshirt,Item,1,Ero & Constantinos,75,ero,ero_bengal
 5L olive oil + marmalade,Food,1,Akaki Grove,126,akaki_grove,
@@ -41,10 +41,13 @@ Noesis Restaurant Larnaca voucher,Voucher,3,Noesis Restaurant,50,noesis,
 Crowne Plaza Limassol stay,Voucher,1,Crowne Plaza Limassol,,crowne_plaza,
 Scarf,Item,1,Queendom of Oeuf,40,oeuf,oeuf_scarf
 Small hamper with festive treats and Christmas Barmbrack,Food,1,Kneaded Bakes,,kneaded_bakes,
-Voucher,Voucher,,Beauty in the City,,beauty_city,
+Voucher,Voucher,3,Beauty in the City,60,beauty_city,
 Voucher,Voucher,1,Renos Agrotis Bookstore,100,agrotis,
 Voucher,Voucher,2,Marks & Spencers,50,ms,
 12 Beers of Christmas box,Food,1,Brewfellas & Crossline Brewing,85,brewfellas,brewfellas_beers
 Alumni Bundle (large black crewneck + 3 tote bags),Item,1,Junior and Senior School Alumni,66,jussaa,jussaa_bundle_a
 Alumni Bundle (large white hoodie + 2 tote bags + USB),Item,1,Junior and Senior School Alumni,74,jussaa,jussaa_bundle_b
 Voucher,Voucher,1,Powerflex,100,powerflex,
+Grecian Sands Hotel stay (1 night),Voucher,1,Grecian Sands Hotel,,grecian,
+Box with two candles and a 2026 favor(γούρι)/christmas tree ornament,Item,1,Jerouthkia,50,jerouthkia,
+Meal for Two voucher at Ellhniko Mezedopoleio,Voucher,1,Louis Group of Companies,70,elliniko,

@@ -16,8 +16,8 @@ def excel_to_clean_csv(excel_path):
     # Load first sheet as values only
     df = pd.read_excel(excel_path, sheet_name=0, engine="openpyxl")
 
-    # Keep only columns A–G
-    df = df.iloc[:, :7]
+    # Keep only columns B–H
+    df = df.iloc[:, 1:8]
 
     # Replace NaN with empty string temporarily
     df = df.applymap(lambda x: x if not pd.isna(x) else "")

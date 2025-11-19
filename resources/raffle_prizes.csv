@@ -1,9 +1,9 @@
 Item,Type,Quantity,Provider,Value,Provider Path,Assets Path
-Travel Voucher,Voucher,2,Roady Travels,100,roady,
+Travel Voucher,Voucher,2,Roady Travel,100,roady,
 Voucher,Voucher,1,G Stephanides Son & Co. Ltd,100,g_stephanides,
 Mum Support Group Voucher,Voucher,1,MommyBox Cyprus,70,mommybox,
 Christmas Panettone,Food,1,Kantina,40,kantina,
-Eurx,Voucher,1,MaxiMa Boutiques Cyprus,,maxima_boutiques,
+Eurx Voucher,Voucher,1,MaxiMa Boutiques Cyprus,,maxima_boutiques,
 Voucher,Voucher,2,Labels Boutique,60,labels_boutique,
 "Large, hand-painted ceramic pasta/salad bowl",Item,1,Fingerprints,90,,fingerprints
 Limited edition bengal tiger white sweatshirt,Item,1,Ero & Constantinos,75,ero,ero_bengal
@@ -51,3 +51,7 @@ Voucher,Voucher,1,Powerflex,100,powerflex,
 Grecian Sands Hotel stay (1 night),Voucher,1,Grecian Sands Hotel,,grecian,
 Box with two candles and a 2026 favor(γούρι)/christmas tree ornament,Item,1,Jerouthkia,50,jerouthkia,
 Meal for Two voucher at Ellhniko Mezedopoleio,Voucher,1,Louis Group of Companies,70,elliniko,
+Curated musical experience including personalized mixes by renowned US DJ and Music Director Rani G (Standard),Voucher,1,Rani G,150,rani,
+Curated musical experience including personalized mixes by renowned US DJ and Music Director Rani G (Luxury),Voucher,1,Rani G,500,rani,
+"Engraved Stanley mug bottle (black, personalised engraving)",Item,3,Panayiotides,50,panayiotides,panayiotides_mug
+"Engraved Stanley bottle (choice of black/white/pink, personalised engraving)",Item,5,Panayiotides,50,panayiotides,panayiotides_bottle

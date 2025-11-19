@@ -5,7 +5,7 @@ Mum Support Group Voucher,Voucher,1,MommyBox Cyprus,70,mommybox,
 Christmas Panettone,Food,1,Kantina,40,kantina,
 Eurx Voucher,Voucher,1,MaxiMa Boutiques Cyprus,,maxima_boutiques,
 Voucher,Voucher,2,Labels Boutique,60,labels_boutique,
-"Large, hand-painted ceramic pasta/salad bowl",Item,1,Fingerprints,90,,fingerprints
+"Large, hand-painted ceramic pasta/salad bowl",Item,1,Fingerprints,90,fingerprints,fingerprints
 Limited edition bengal tiger white sweatshirt,Item,1,Ero & Constantinos,75,ero,ero_bengal
 5L olive oil + marmalade,Food,1,Akaki Grove,126,akaki_grove,
 Framed photograph,Item,1,Joanna Solomou,200,,
@@ -30,7 +30,7 @@ Athens square art print,Item,1,Harris Yiannoukas,60,harris_yiannoukas,hy_athens
 Voucher,Voucher,1,TIMINIS,100,timinis,
 Voucher,Voucher,2,VLM,50,vlm,
 Hardback History of Jewellers in Cyprus,Item,1,G Stephanides Son & Co. Ltd,90,g_stephanides,jewellers_history
-Gift,Item,1,Toni & Guy,,toni_guy,
+"Makeover package (hair cut, colour, and products)",Item,1,Toni & Guy,250,toni_guy,
 Comprehensive Dermatoscopic Mole Check & Personalised Skin Health Prevention Plan,Voucher,2,Dr Danae Trokoudes,,danae_trokoudes,
 Small red christmas sweater with genuine Swarovski crystals,Item,1,Ero & Constantinos,75,ero,ero_sweater
 Voucher,Voucher,1,Fabrica,50,fabrica,
@@ -55,3 +55,4 @@ Curated musical experience including personalized mixes by renowned US DJ and Mu
 Curated musical experience including personalized mixes by renowned US DJ and Music Director Rani G (Luxury),Voucher,1,Rani G,500,rani,
 "Engraved Stanley mug bottle (black, personalised engraving)",Item,3,Panayiotides,50,panayiotides,panayiotides_mug
 "Engraved Stanley bottle (choice of black/white/pink, personalised engraving)",Item,5,Panayiotides,50,panayiotides,panayiotides_bottle
+One hour private midlife coaching session with Kathy Kattashis,Voucher,1,Mitra,,mitra,

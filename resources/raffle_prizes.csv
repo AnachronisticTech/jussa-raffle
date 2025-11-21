@@ -3,7 +3,7 @@ Travel Voucher,Voucher,2,Roady Travel,100,roady,
 Voucher,Voucher,1,G Stephanides Son & Co. Ltd,100,g_stephanides,
 Mum Support Group Voucher,Voucher,1,MommyBox Cyprus,70,mommybox,
 Christmas Panettone,Food,1,Kantina,40,kantina,
-Eurx Voucher,Voucher,1,MaxiMa Boutiques Cyprus,,maxima_boutiques,
+Eurx Voucher,Voucher,1,MaxiMa Boutiques Cyprus,80,maxima_boutiques,
 Voucher,Voucher,2,Labels Boutique,60,labels_boutique,
 "Large, hand-painted ceramic pasta/salad bowl",Item,1,Fingerprints,90,fingerprints,fingerprints
 Limited edition bengal tiger white sweatshirt,Item,1,Ero & Constantinos,75,ero,ero_bengal
@@ -16,7 +16,7 @@ One custom t-shirt,Voucher,1,Oli & Wawa,40,oli_wawa,
 Artwork,Item,1,Pops & Bubbles,250,pops_bubbles,
 Ice cream (850ml tub) voucher,Voucher,3,Papafilipou,,papafilipou,
 Stay at Jubilee Hotel,Voucher,1,Jubilee Hotel,,jubilee_hotel,
-Hamper,Item,1,Marks & Spencers,,ms,
+Hamper,Item,1,Marks & Spencers,,ms,ms_hamper
 TBC,,,Yolanda's Chocolatiers,,yiolandas_chocolatiers,
 Illustration/print,Item,1,Toff Mazery creator of Wolf Boy,200,toff,
 Cosmetics goodie bag,Item,1,mpmimports,50,mpmimports,mpm_bag
@@ -56,3 +56,6 @@ Curated musical experience including personalized mixes by renowned US DJ and Mu
 "Engraved Stanley mug bottle (black, personalised engraving)",Item,3,Panayiotides,50,panayiotides,panayiotides_mug
 "Engraved Stanley bottle (choice of black/white/pink, personalised engraving)",Item,5,Panayiotides,50,panayiotides,panayiotides_bottle
 One hour private midlife coaching session with Kathy Kattashis,Voucher,1,Mitra,,mitra,
+Free STEM & Robotics trial workshop,Voucher,18,Engino,,engino,engino_workshop
+Stem Heroes Explorer set,Item,2,Engino,,engino,engino_explorer
+Stem Heroes Plane set,Item,2,Engino,,engino,

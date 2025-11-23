@@ -3,7 +3,7 @@ Travel Voucher,Voucher,2,Roady Travel,100,roady,
 Voucher,Voucher,1,G Stephanides Son & Co. Ltd,100,g_stephanides,
 Mum Support Group Voucher,Voucher,1,MommyBox Cyprus,70,mommybox,
 Christmas Panettone,Food,1,Kantina,40,kantina,
-Eurx Voucher,Voucher,1,MaxiMa Boutiques Cyprus,80,maxima_boutiques,
+Voucher,Voucher,1,MaxiMa Boutiques Cyprus,80,maxima_boutiques,
 Voucher,Voucher,2,Labels Boutique,60,labels_boutique,
 "Large, hand-painted ceramic pasta/salad bowl",Item,1,Fingerprints,90,fingerprints,fingerprints
 Limited edition bengal tiger white sweatshirt,Item,1,Ero & Constantinos,75,ero,ero_bengal
@@ -57,5 +57,4 @@ Curated musical experience including personalized mixes by renowned US DJ and Mu
 "Engraved Stanley bottle (choice of black/white/pink, personalised engraving)",Item,5,Panayiotides,50,panayiotides,panayiotides_bottle
 One hour private midlife coaching session with Kathy Kattashis,Voucher,1,Mitra,,mitra,
 Free STEM & Robotics trial workshop,Voucher,18,Engino,,engino,engino_workshop
-Stem Heroes Explorer set,Item,2,Engino,,engino,engino_explorer
-Stem Heroes Plane set,Item,2,Engino,,engino,
+Stem Heroes set,Item,4,Engino,,engino,engino_explorer

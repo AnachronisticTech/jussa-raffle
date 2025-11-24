@@ -1,4 +1,10 @@
 Item,Type,Quantity,Provider,Value,Provider Path,Assets Path
+Crowne Plaza Limassol stay,Voucher,1,Crowne Plaza Limassol,,crowne_plaza,
+Grecian Sands Hotel stay (1 night),Voucher,1,Grecian Sands Hotel,,grecian,
+Stay at Jubilee Hotel,Voucher,1,Jubilee Hotel,,jubilee_hotel,
+Curated musical experience including personalized mixes by renowned US DJ and Music Director Rani G (Luxury),Voucher,1,Rani G,500,rani,rani_2
+Curated musical experience including personalized mixes by renowned US DJ and Music Director Rani G (Standard),Voucher,1,Rani G,150,rani,rani_1
+Illustration/print,Item,1,Toff Mazery creator of Wolf Boy,200,toff,
 Travel Voucher,Voucher,2,Roady Travel,100,roady,
 Voucher,Voucher,1,G Stephanides Son & Co. Ltd,100,g_stephanides,
 Mum Support Group Voucher,Voucher,1,MommyBox Cyprus,70,mommybox,
@@ -15,10 +21,8 @@ Handmade crocheted evening clutch bag,Item,1,dD Designs,,dd_designs,dd_bag
 One custom t-shirt,Voucher,1,Oli & Wawa,40,oli_wawa,
 Artwork,Item,1,Pops & Bubbles,250,pops_bubbles,
 Ice cream (850ml tub) voucher,Voucher,3,Papafilipou,,papafilipou,
-Stay at Jubilee Hotel,Voucher,1,Jubilee Hotel,,jubilee_hotel,
-Hamper,Item,1,Marks & Spencers,,ms,ms_hamper
+Hamper,Item,1,Marks & Spencers,,ms_sym,ms_hamper
 TBC,,,Yolanda's Chocolatiers,,yiolandas_chocolatiers,
-Illustration/print,Item,1,Toff Mazery creator of Wolf Boy,200,toff,
 Cosmetics goodie bag,Item,1,mpmimports,50,mpmimports,mpm_bag
 Perfume,Item,1,mpmimports,35,mpmimports,mpm_perfume
 Prepaid fuel cards,Item,4,Petrolina,50,petrolina,
@@ -38,7 +42,6 @@ Solly the Dolly doll,Item,4,Solly the Dolly,,solly_dolly,solly_dolly
 Women's clothing voucher,Voucher,1,BSB,100,bsb,
 Women's clothing voucher,Voucher,1,Celestino,70,celestino,
 Noesis Restaurant Larnaca voucher,Voucher,3,Noesis Restaurant,50,noesis,
-Crowne Plaza Limassol stay,Voucher,1,Crowne Plaza Limassol,,crowne_plaza,
 Scarf,Item,1,Queendom of Oeuf,40,oeuf,oeuf_scarf
 Small hamper with festive treats and Christmas Barmbrack,Food,1,Kneaded Bakes,,kneaded_bakes,
 Voucher,Voucher,3,Beauty in the City,60,beauty_city,
@@ -48,11 +51,8 @@ Voucher,Voucher,2,Marks & Spencers,50,ms,
 Alumni Bundle (large black crewneck + 3 tote bags),Item,1,Junior and Senior School Alumni,66,jussaa,jussaa_bundle_a
 Alumni Bundle (large white hoodie + 2 tote bags + USB),Item,1,Junior and Senior School Alumni,74,jussaa,jussaa_bundle_b
 Voucher,Voucher,1,Powerflex,100,powerflex,
-Grecian Sands Hotel stay (1 night),Voucher,1,Grecian Sands Hotel,,grecian,
 Box with two candles and a 2026 favor(γούρι)/christmas tree ornament,Item,1,Jerouthkia,50,jerouthkia,
 Meal for Two voucher at Ellhniko Mezedopoleio,Voucher,1,Louis Group of Companies,70,elliniko,
-Curated musical experience including personalized mixes by renowned US DJ and Music Director Rani G (Standard),Voucher,1,Rani G,150,rani,rani_1
-Curated musical experience including personalized mixes by renowned US DJ and Music Director Rani G (Luxury),Voucher,1,Rani G,500,rani,rani_2
 "Engraved Stanley mug bottle (black, personalised engraving)",Item,3,Panayiotides,50,panayiotides,panayiotides_mug
 "Engraved Stanley bottle (choice of black/white/pink, personalised engraving)",Item,5,Panayiotides,50,panayiotides,panayiotides_bottle
 One hour private midlife coaching session with Kathy Kattashis,Voucher,1,Mitra,,mitra,

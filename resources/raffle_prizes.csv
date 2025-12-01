@@ -31,7 +31,7 @@ Hamper of pasta and sauces,Food,5,Mitsides,25,mitsides,
 4 wooden handmade coasters + chopping board,Item,1,ABwood creations,80,,
 Nicosia square art print,Item,1,Harris Yiannoukas,60,harris_yiannoukas,hy_nicosia
 Athens square art print,Item,1,Harris Yiannoukas,60,harris_yiannoukas,hy_athens
-Voucher,Voucher,1,TIMINIS,100,timinis,
+Voucher,Voucher,1,Luigi Loves Luisa,100,timinis,
 Voucher,Voucher,2,VLM,50,vlm,
 Hardback History of Jewellers in Cyprus,Item,1,G Stephanides Son & Co. Ltd,90,g_stephanides,jewellers_history
 "Makeover package (hair cut, colour, and products)",Item,1,Toni & Guy,250,toni_guy,
@@ -42,7 +42,7 @@ Solly the Dolly doll,Item,4,Solly the Dolly,,solly_dolly,solly_dolly
 Women's clothing voucher,Voucher,1,BSB,100,bsb,
 Women's clothing voucher,Voucher,1,Celestino,70,celestino,
 Noesis Restaurant Larnaca voucher,Voucher,3,Noesis Restaurant,50,noesis,
-Scarf,Item,1,Queendom of Oeuf,40,oeuf,oeuf_scarf
+Two Premium Scarves,Item,15,Queendom of Oeuf,80,oeuf,oeuf_scarf
 Small hamper with festive treats and Christmas Barmbrack,Food,1,Kneaded Bakes,,kneaded_bakes,
 Voucher,Voucher,3,Beauty in the City,60,beauty_city,
 Voucher,Voucher,1,Renos Agrotis Bookstore,100,agrotis,
@@ -58,3 +58,8 @@ Meal for Two voucher at Ellhniko Mezedopoleio,Voucher,1,Louis Group of Companies
 One hour private midlife coaching session with Kathy Kattashis,Voucher,1,Mitra,,mitra,
 Free STEM & Robotics trial workshop,Voucher,18,Engino,,engino,engino_workshop
 Stem Heroes set,Item,4,Engino,,engino,engino_explorer
+Wooden wall panels (4 panels 60x240cm),Item,1,BUILDIT,320,buildit,buildit_panels
+Voucher,Voucher,1,Terra et Vita,50,terra_vita,
+Voucher,Voucher,1,Paperworks Philippides,50,paperworks,
+Handmade mug,Item,1,Lotus in the Mud,,lotus_mud,lotus_mud_mug
+Premium scarf and T-shirt,Item,12,Queendom of Oeuf,55,oeuf,oeuf_shirt

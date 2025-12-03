@@ -1,65 +1,65 @@
-Item,Type,Quantity,Provider,Value,Provider Path,Assets Path
-Crowne Plaza Limassol stay,Voucher,1,Crowne Plaza Limassol,,crowne_plaza,
-Grecian Sands Hotel stay (1 night),Voucher,1,Grecian Sands Hotel,,grecian,
-Stay at Jubilee Hotel,Voucher,1,Jubilee Hotel,,jubilee_hotel,
-Curated musical experience including personalized mixes by renowned US DJ and Music Director Rani G (Luxury),Voucher,1,Rani G,500,rani,rani_2
-Curated musical experience including personalized mixes by renowned US DJ and Music Director Rani G (Standard),Voucher,1,Rani G,150,rani,rani_1
-Illustration/print,Item,1,Toff Mazery creator of Wolf Boy,200,toff,
-Travel Voucher,Voucher,2,Roady Travel,100,roady,
-Voucher,Voucher,1,G Stephanides Son & Co. Ltd,100,g_stephanides,
-Mum Support Group Voucher,Voucher,1,MommyBox Cyprus,70,mommybox,
-Christmas Panettone,Food,1,Kantina,40,kantina,
-Voucher,Voucher,1,MaxiMa Boutiques Cyprus,80,maxima_boutiques,
-Voucher,Voucher,2,Labels Boutique,60,labels_boutique,
-"Large, hand-painted ceramic pasta/salad bowl",Item,1,Fingerprints,90,fingerprints,fingerprints
-Limited edition bengal tiger white sweatshirt,Item,1,Ero & Constantinos,75,ero,ero_bengal
-5L olive oil + marmalade,Food,1,Akaki Grove,126,akaki_grove,
-Framed photograph,Item,1,Joanna Solomou,200,,
-Garden voucher,Voucher,2,Solomou Garden Centre,20,solomou,
-Jewellery voucher,Voucher,1,Nicole Tsiallis,50,nicole_tsiallis,
-Handmade crocheted evening clutch bag,Item,1,dD Designs,,dd_designs,dd_bag
-One custom t-shirt,Voucher,1,Oli & Wawa,40,oli_wawa,
-Artwork,Item,1,Pops & Bubbles,250,pops_bubbles,
-Ice cream (850ml tub) voucher,Voucher,3,Papafilipou,,papafilipou,
-Hamper,Item,1,Marks & Spencers,,ms_sym,ms_hamper
-Box of 24 bonbons,Food,1,Yolanda's Chocolatiers,40,yiolandas_chocolatiers,yolanda_box
-Cosmetics goodie bag,Item,1,mpmimports,50,mpmimports,mpm_bag
-Perfume,Item,1,mpmimports,35,mpmimports,mpm_perfume
-Prepaid fuel cards,Item,4,Petrolina,50,petrolina,
-Hamper of pasta and sauces,Food,5,Mitsides,25,mitsides,
-20% discount voucher,Voucher,1,Theofanides Eyeworld,,theofanides_eyeworld,
-4 wooden handmade coasters + chopping board,Item,1,ABwood creations,80,,
-Nicosia square art print,Item,1,Harris Yiannoukas,60,harris_yiannoukas,hy_nicosia
-Athens square art print,Item,1,Harris Yiannoukas,60,harris_yiannoukas,hy_athens
-Voucher,Voucher,1,Luigi Loves Luisa,100,timinis,
-Voucher,Voucher,2,VLM,50,vlm,
-Hardback History of Jewellers in Cyprus,Item,1,G Stephanides Son & Co. Ltd,90,g_stephanides,jewellers_history
-"Makeover package (hair cut, colour, and products)",Item,1,Toni & Guy,250,toni_guy,
-Comprehensive Dermatoscopic Mole Check & Personalised Skin Health Prevention Plan,Voucher,2,Dr Danae Trokoudes,,danae_trokoudes,
-Small red christmas sweater with genuine Swarovski crystals,Item,1,Ero & Constantinos,75,ero,ero_sweater
-Voucher,Voucher,1,Fabrica,50,fabrica,
-Solly the Dolly doll,Item,4,Solly the Dolly,,solly_dolly,solly_dolly
-Women's clothing voucher,Voucher,1,BSB,100,bsb,
-Women's clothing voucher,Voucher,1,Celestino,70,celestino,
-Noesis Restaurant Larnaca voucher,Voucher,3,Noesis Restaurant,50,noesis,
-Two Premium Scarves,Item,15,Queendom of Oeuf,80,oeuf,oeuf_scarf
-Small hamper with festive treats and Christmas Barmbrack,Food,1,Kneaded Bakes,,kneaded_bakes,
-Voucher,Voucher,3,Beauty in the City,60,beauty_city,
-Voucher,Voucher,1,Renos Agrotis Bookstore,100,agrotis,
-Voucher,Voucher,2,Marks & Spencers,50,ms,
-12 Beers of Christmas box,Food,1,Brewfellas & Crossline Brewing,85,brewfellas,brewfellas_beers
-Alumni Bundle (large black crewneck + 3 tote bags),Item,1,Junior and Senior School Alumni,66,jussaa,jussaa_bundle_a
-Alumni Bundle (large white hoodie + 2 tote bags + USB),Item,1,Junior and Senior School Alumni,74,jussaa,jussaa_bundle_b
-Voucher,Voucher,1,Powerflex,100,powerflex,
-Box with two candles and a 2026 favor(γούρι)/christmas tree ornament,Item,1,Jerouthkia,50,jerouthkia,
-Meal for Two voucher at Ellhniko Mezedopoleio,Voucher,1,Louis Group of Companies,70,elliniko,
-"Engraved Stanley mug bottle (black, personalised engraving)",Item,3,Panayiotides,50,panayiotides,panayiotides_mug
-"Engraved Stanley bottle (choice of black/white/pink, personalised engraving)",Item,5,Panayiotides,50,panayiotides,panayiotides_bottle
-One hour private midlife coaching session with Kathy Kattashis,Voucher,1,Mitra,,mitra,
-Free STEM & Robotics trial workshop,Voucher,18,Engino,,engino,engino_workshop
-Stem Heroes set,Item,4,Engino,,engino,engino_explorer
-Wooden wall panels (4 panels 60x240cm),Item,1,BUILDIT,320,buildit,buildit_panels
-Voucher,Voucher,1,Terra et Vita,50,terra_vita,
-Voucher,Voucher,1,Paperworks Philippides,50,paperworks,
-Handmade mug,Item,1,Lotus in the Mud,,lotus_mud,lotus_mud_mug
-Premium scarf and T-shirt,Item,12,Queendom of Oeuf,55,oeuf,oeuf_shirt
+Id,Item,Type,Quantity,Provider,Value,Provider Path,Assets Path
+40,Crowne Plaza Limassol stay,Voucher,1,Crowne Plaza Limassol,,crowne_plaza,
+50,Grecian Sands Hotel stay (1 night),Voucher,1,Grecian Sands Hotel,,grecian,
+17,Stay at Jubilee Hotel,Voucher,1,Jubilee Hotel,,jubilee_hotel,
+54,Curated musical experience including personalized mixes by renowned US DJ and Music Director Rani G (Luxury),Voucher,1,Rani G,500,rani,rani_2
+53,Curated musical experience including personalized mixes by renowned US DJ and Music Director Rani G (Standard),Voucher,1,Rani G,150,rani,rani_1
+20,Illustration/print,Item,1,Toff Mazery creator of Wolf Boy,200,toff,
+1,Travel Voucher,Voucher,2,Roady Travel,100,roady,
+2,Voucher,Voucher,1,G Stephanides Son & Co. Ltd,100,g_stephanides,
+3,Mum Support Group Voucher,Voucher,1,MommyBox Cyprus,70,mommybox,
+4,Christmas Panettone,Food,1,Kantina,40,kantina,
+5,Voucher,Voucher,1,MaxiMa Boutiques Cyprus,80,maxima_boutiques,
+6,Voucher,Voucher,2,Labels Boutique,60,labels_boutique,
+7,"Large, hand-painted ceramic pasta/salad bowl",Item,1,Fingerprints,90,fingerprints,fingerprints
+8,Limited edition bengal tiger white sweatshirt,Item,1,Ero & Constantinos,75,ero,ero_bengal
+9,5L olive oil + marmalade,Food,1,Akaki Grove,126,akaki_grove,
+10,Framed photograph,Item,1,Joanna Solomou,200,,
+11,Garden voucher,Voucher,2,Solomou Garden Centre,20,solomou,
+12,Jewellery voucher,Voucher,1,Nicole Tsiallis,50,nicole_tsiallis,
+13,Handmade crocheted evening clutch bag,Item,1,dD Designs,,dd_designs,dd_bag
+14,One custom t-shirt,Voucher,1,Oli & Wawa,40,oli_wawa,
+15,Artwork,Item,1,Pops & Bubbles,250,pops_bubbles,
+16,Ice cream (850ml tub) voucher,Voucher,3,Papafilipou,,papafilipou,
+18,Hamper,Item,1,Marks & Spencers,,ms_sym,ms_hamper
+19,Box of 24 bonbons,Food,1,Yolanda's Chocolatiers,40,yiolandas_chocolatiers,yolanda_box
+21,Cosmetics goodie bag,Item,1,mpmimports,50,mpmimports,mpm_bag
+22,Perfume,Item,1,mpmimports,35,mpmimports,mpm_perfume
+23,Prepaid fuel cards,Item,4,Petrolina,50,petrolina,
+24,Hamper of pasta and sauces,Food,5,Mitsides,25,mitsides,
+25,20% discount voucher,Voucher,1,Theofanides Eyeworld,,theofanides_eyeworld,
+26,4 wooden handmade coasters + chopping board,Item,1,ABwood creations,80,,
+27,Nicosia square art print,Item,1,Harris Yiannoukas,60,harris_yiannoukas,hy_nicosia
+28,Athens square art print,Item,1,Harris Yiannoukas,60,harris_yiannoukas,hy_athens
+29,Voucher,Voucher,1,Luigi Loves Luisa,100,timinis,
+30,Voucher,Voucher,2,VLM,50,vlm,
+31,Hardback History of Jewellers in Cyprus,Item,1,G Stephanides Son & Co. Ltd,90,g_stephanides,jewellers_history
+32,"Makeover package (hair cut, colour, and products)",Item,1,Toni & Guy,250,toni_guy,
+33,Comprehensive Dermatoscopic Mole Check & Personalised Skin Health Prevention Plan,Voucher,2,Dr Danae Trokoudes,,danae_trokoudes,
+34,Small red christmas sweater with genuine Swarovski crystals,Item,1,Ero & Constantinos,75,ero,ero_sweater
+35,Voucher,Voucher,1,Fabrica,50,fabrica,
+36,Solly the Dolly doll,Item,4,Solly the Dolly,,solly_dolly,solly_dolly
+37,Women's clothing voucher,Voucher,1,BSB,100,bsb,
+38,Women's clothing voucher,Voucher,1,Celestino,70,celestino,
+39,Noesis Restaurant Larnaca voucher,Voucher,3,Noesis Restaurant,50,noesis,
+41,Two Premium Scarves,Item,15,Queendom of Oeuf,80,oeuf,oeuf_scarf
+42,Small hamper with festive treats and Christmas Barmbrack,Food,1,Kneaded Bakes,,kneaded_bakes,
+43,Voucher,Voucher,3,Beauty in the City,60,beauty_city,
+44,Voucher,Voucher,1,Renos Agrotis Bookstore,100,agrotis,
+45,Voucher,Voucher,2,Marks & Spencers,50,ms,
+46,12 Beers of Christmas box,Food,1,Brewfellas & Crossline Brewing,85,brewfellas,brewfellas_beers
+47,Alumni Bundle (large black crewneck + 3 tote bags),Item,1,Junior and Senior School Alumni,66,jussaa,jussaa_bundle_a
+48,Alumni Bundle (large white hoodie + 2 tote bags + USB),Item,1,Junior and Senior School Alumni,74,jussaa,jussaa_bundle_b
+49,Voucher,Voucher,1,Powerflex,100,powerflex,
+51,Box with two candles and a 2026 favor(γούρι)/christmas tree ornament,Item,1,Jerouthkia,50,jerouthkia,
+52,Meal for Two voucher at Ellhniko Mezedopoleio,Voucher,1,Louis Group of Companies,70,elliniko,
+55,"Engraved Stanley mug bottle (black, personalised engraving)",Item,3,Panayiotides,50,panayiotides,panayiotides_mug
+56,"Engraved Stanley bottle (choice of black/white/pink, personalised engraving)",Item,5,Panayiotides,50,panayiotides,panayiotides_bottle
+57,One hour private midlife coaching session with Kathy Kattashis,Voucher,1,Mitra,,mitra,
+58,Free STEM & Robotics trial workshop,Voucher,18,Engino,,engino,engino_workshop
+59,Stem Heroes set,Item,4,Engino,,engino,engino_explorer
+60,Wooden wall panels (4 panels 60x240cm),Item,1,BUILDIT,320,buildit,buildit_panels
+61,Voucher,Voucher,1,Terra et Vita,50,terra_vita,
+62,Voucher,Voucher,1,Paperworks Philippides,50,paperworks,
+63,Handmade mug,Item,1,Lotus in the Mud,,lotus_mud,lotus_mud_mug
+64,Premium scarf and T-shirt,Item,12,Queendom of Oeuf,55,oeuf,oeuf_shirt

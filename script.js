@@ -1,4 +1,5 @@
 const PRIZE_CSV_URL = "resources/raffle_prizes.csv";
+const WINNERS_CSV_URL = "resources/winners.csv";
 const PROVIDER_BASE_PATH = "assets/providers/";
 const IMAGE_ASSET_BASE_PATH = "assets/images/";
 const IMAGE_EXTENSIONS = ["png", "jpg", "jpeg", "gif", "webp", "avif", "svg"];
@@ -29,17 +30,62 @@ const fieldLabels = {
   value: "Value",
 };
 
+// Map of prize id -> array of ticket numbers (strings)
+const winnersById = new Map();
+
 init();
 
 async function init() {
   try {
-    const csvText = await fetchCsv(PRIZE_CSV_URL);
-    const { records } = parseCsv(csvText);
-    await renderPrizes(records);
+    // Load prizes first. Winners are optional — if `resources/winners.csv` is missing
+    // we proceed without winners rather than failing the whole page.
+    const prizeCsvText = await fetchCsv(PRIZE_CSV_URL);
+    const { records: prizeRecords } = parseCsv(prizeCsvText);
+
+    // Attempt to load winners.csv; if it fails, continue with empty winners map.
+    try {
+      const winnersCsvText = await fetchCsv(WINNERS_CSV_URL);
+      const { records: winnerRecords } = parseCsv(winnersCsvText, { filterByItem: false });
+      buildWinnersMap(winnerRecords);
+    } catch (wErr) {
+      // Non-fatal: no winners file or failed to load. Log and continue.
+      console.warn(`Could not load winners CSV at ${WINNERS_CSV_URL}:`, wErr);
+      winnersById.clear();
+    }
+
+    await renderPrizes(prizeRecords);
     createSparkles();
   } catch (error) {
     console.error(error);
     showPrizeError();
+  }
+}
+
+function buildWinnersMap(winnerRecords) {
+  winnersById.clear();
+  if (!Array.isArray(winnerRecords) || !winnerRecords.length) return;
+  const prizeIdKey = normaliseKey("Prize Id");
+  const ticketKey = normaliseKey("Ticket number");
+
+  winnerRecords.forEach((rec) => {
+    const rawId = rec[prizeIdKey];
+    const rawTicket = rec[ticketKey];
+    if (!rawId || !rawTicket) return;
+    const id = String(rawId).trim();
+    const ticket = String(rawTicket).trim();
+    if (!id || !ticket) return;
+    const arr = winnersById.get(id) || [];
+    arr.push(ticket);
+    winnersById.set(id, arr);
+  });
+  // Debug: report how many prize ids have winners loaded.
+  try {
+    const totalIds = winnersById.size;
+    let totalTickets = 0;
+    winnersById.forEach((arr) => (totalTickets += arr.length));
+    console.info(`Loaded winners: ${totalTickets} tickets for ${totalIds} prize ids`);
+  } catch (e) {
+    /* ignore */
   }
 }
 
@@ -51,7 +97,9 @@ async function fetchCsv(url) {
   return await response.text();
 }
 
-function parseCsv(text) {
+function parseCsv(text, options = {}) {
+  // options.filterByItem: when true (default) filter out rows that don't include an `Item` value.
+  const { filterByItem = true } = options;
   const rows = [];
   let current = "";
   let inQuotes = false;
@@ -118,10 +166,13 @@ function parseCsv(text) {
     return record;
   });
 
-  const filteredRecords = records.filter((record) => {
-    const itemName = record[normaliseKey("Item")] || "";
-    return itemName.trim().length > 0;
-  });
+  let filteredRecords = records;
+  if (filterByItem) {
+    filteredRecords = records.filter((record) => {
+      const itemName = record[normaliseKey("Item")] || "";
+      return itemName.trim().length > 0;
+    });
+  }
 
   return { columns, records: filteredRecords };
 }
@@ -139,6 +190,7 @@ async function renderPrizes(records) {
 
   const providerPathKey = normaliseKey("Provider Path");
   const assetsPathKey = normaliseKey("Assets Path");
+  const idKey = normaliseKey("Id");
 
   const providerPaths = records.map((record) => getAssetPath(record, providerPathKey));
   const galleryPaths = records.map((record) => getAssetPath(record, assetsPathKey));
@@ -173,6 +225,18 @@ async function renderPrizes(records) {
     card.className = "prize-card";
     card.setAttribute("role", "listitem");
 
+    // Attach numeric ID (from CSV `Id` column) to the card for programmatic association.
+    // We assume `Id` is present and is a positive integer per the new format.
+    const rawId = record[idKey];
+    if (rawId) {
+      const parsedId = Number(String(rawId).trim());
+      if (!Number.isNaN(parsedId)) {
+        card.dataset.id = String(parsedId);
+        // also normalise the stored record to the parsed number for future use
+        record[idKey] = String(parsedId);
+      }
+    }
+
     const content = document.createElement("div");
     content.className = "prize-card__content";
 
@@ -190,6 +254,11 @@ async function renderPrizes(records) {
     heading.textContent = itemName;
     header.appendChild(heading);
 
+    // Apply winners (from winners.csv) by Prize Id, if present.
+    const cardId = card.dataset.id;
+    const tickets = cardId && winnersById.has(cardId) ? winnersById.get(cardId) : [];
+
+    // Append header first into content, then meta/details, then attach content to card
     content.appendChild(header);
 
     const meta = createMetaChips(record);
@@ -202,7 +271,12 @@ async function renderPrizes(records) {
       content.appendChild(details);
     }
 
+    // Attach content to card before applying winners so winners can be inserted into the header.
     card.appendChild(content);
+
+    if (tickets && tickets.length) {
+      applyWinnersToCard(card, tickets, record);
+    }
 
     const galleryImages = gatherGalleryImages(galleryAssets);
     if (galleryImages.length) {
@@ -916,4 +990,58 @@ function createSparkles() {
   }
 
   document.body.appendChild(layer);
+}
+
+// Internal helper — apply winners (ticket numbers) to a specific card and record.
+// `id` is the prize id as stored on card.dataset.id; `tickets` is an array of ticket strings.
+function applyWinnersToCard(card, tickets, record) {
+  if (!card || !tickets || !tickets.length) return;
+
+  const titleEl = card.querySelector(".prize-card__title");
+  if (titleEl) {
+    titleEl.classList.add("prize-card__title--won");
+  }
+
+  card.classList.add("prize-card--won");
+  card.dataset.ticket = tickets.join(",");
+
+  // ensure winners badges
+  let winnersContainer = card.querySelector(".prize-card__winners");
+  if (winnersContainer) {
+    winnersContainer.innerHTML = "";
+  } else {
+    winnersContainer = document.createElement("div");
+    winnersContainer.className = "prize-card__winners";
+    const header = card.querySelector(".prize-card__header");
+    if (header) header.appendChild(winnersContainer);
+  }
+
+  tickets.forEach((t) => {
+    const span = document.createElement("span");
+    span.className = "prize-card__winner";
+    span.textContent = `#${String(t).trim()}`;
+    winnersContainer.appendChild(span);
+  });
+
+  // If a numeric Quantity exists, decrement it by the number of winners (clamped to 0).
+  const quantityKey = normaliseKey("Quantity");
+  const rawQty = record[quantityKey];
+  const parsedQty = Number(String(rawQty || "").trim());
+  if (!Number.isNaN(parsedQty) && String(rawQty).trim() !== "") {
+    const remaining = Math.max(0, parsedQty - tickets.length);
+    record[quantityKey] = String(remaining);
+  }
+
+  // Update any visible meta chip immediately if already rendered.
+  const metaChip = Array.from(card.querySelectorAll(".prize-card__meta span")).find((s) =>
+    /available$/i.test(s.textContent)
+  );
+  if (metaChip) {
+    const match = metaChip.textContent.match(/(\d+)/);
+    const current = match ? Number(match[1]) : NaN;
+    if (!Number.isNaN(current)) {
+      const remaining = Math.max(0, current - tickets.length);
+      metaChip.textContent = `${remaining} available`;
+    }
+  }
 }

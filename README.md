@@ -5,6 +5,7 @@ This is a static landing page for The Junior &amp; Senior School Alumni Associat
 ## Updating the prize list
 
 1. Edit `resources/raffle_prizes.csv` and update or add rows. The header should include the following columns:
+   - `Id` (required) — a distinct positive integer used to identify each prize programmatically. This does not change the visual behaviour but is used to associate winners with prizes.
    - `Item` (required)
    - `Type`, `Quantity`, `Provider`, `Value` (optional but recommended)
    - `Provider Path` (optional — folder name inside `assets/providers/` with logo/links for the provider)
@@ -23,3 +24,21 @@ Open `index.html` in your browser to preview the page locally. If you’re runni
 ## GitHub Pages workflow
 
 The workflow defined in `.github/workflows/deploy.yml` builds and publishes the site to GitHub Pages. During the build it runs `scripts/generate-image-manifests.js`, which scans every directory under `assets/images/` and `assets/providers/`, writing `index.json` files that describe gallery images and provider logo filenames. This lets non-technical contributors add or remove assets simply by dragging files into the relevant folders—no manual manifest editing required. To test locally, run `node scripts/generate-image-manifests.js` before opening the site.
+
+## Winners data
+
+Winners are provided from a separate CSV at `resources/winners.csv`. The site reads winners from `resources/winners.csv` at startup and associates them with prizes by `Id`.
+
+`winners.csv` should include the following columns (header names are case-insensitive):
+
+- `Prize Id` — the numeric `Id` of the prize (matches the `Id` column in `resources/raffle_prizes.csv`).
+- `Ticket number` — the winning ticket number. There may be multiple rows with the same `Prize Id` for multiple winners.
+
+Behaviour:
+
+- The prize card will be visually desaturated and slightly dimmed when winners exist.
+- The prize title will display a strikethrough to indicate it has been claimed.
+- Individual winning ticket badges will be displayed beside the prize title for each `Ticket number` row associated with that `Prize Id`.
+- If the CSV contains a numeric `Quantity`, the site will decrement the available count by the number of recorded winners (clamped to a minimum of `0`) and show the updated availability on the card.
+
+To mark winners, add rows to `winners.csv` with the appropriate `Prize Id` and `Ticket number`. The site loads `winners.csv` on startup and applies winners automatically.

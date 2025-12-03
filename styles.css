@@ -277,6 +277,8 @@ a {
   flex-direction: column;
   gap: 1rem;
   border: 1px solid rgba(192, 144, 47, 0.2);
+  position: relative;
+  overflow: visible;
 }
 
 .prize-card__content {
@@ -473,6 +475,53 @@ a {
 .carousel__dot:focus-visible {
   background: #ffffff;
   transform: scale(1.1);
+}
+
+/* Won / claimed prize styling */
+.prize-card--won {
+  filter: grayscale(70%);
+  opacity: 0.9;
+}
+
+.prize-card__title--won {
+  text-decoration: line-through;
+  opacity: 0.8;
+}
+
+/* ribbon removed — winner badges are used instead */
+
+.prize-card--won .prize-card__media img,
+.prize-card--won .prize-card__logo img {
+  filter: grayscale(100%);
+  opacity: 0.8;
+}
+
+/* Winner badges (multiple tickets) */
+.prize-card__winners {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.prize-card__winner {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--text);
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  margin-left: 0.25rem;
+}
+
+@media (max-width: 640px) {
+  .prize-card__winners {
+    gap: 0.35rem;
+  }
+  .prize-card__winner {
+    padding: 0.1rem 0.45rem;
+    font-size: 0.78rem;
+  }
 }
 
 .prizes__error {

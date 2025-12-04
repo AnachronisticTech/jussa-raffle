@@ -477,26 +477,15 @@ a {
   transform: scale(1.1);
 }
 
-/* Won / claimed prize styling */
 .prize-card--won {
-  filter: grayscale(70%);
-  opacity: 0.9;
+  opacity: 0.96;
 }
 
 .prize-card__title--won {
   text-decoration: line-through;
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
-/* ribbon removed — winner badges are used instead */
-
-.prize-card--won .prize-card__media img,
-.prize-card--won .prize-card__logo img {
-  filter: grayscale(100%);
-  opacity: 0.8;
-}
-
-/* Winner badges (multiple tickets) */
 .prize-card__winners {
   display: flex;
   gap: 0.5rem;

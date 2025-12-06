@@ -295,9 +295,22 @@ a {
   flex-wrap: wrap;
 }
 
+.prize-card__logo {
+  flex: 0 0 auto;
+}
+
+.prize-card__title-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  flex: 1 1 auto;
+}
+
 .prize-card__title {
   margin: 0;
-  flex: 1 1 160px;
+  /* Keep the title at its natural text height; prevent vertical growth */
+  flex: 0 1 auto;
 }
 
 .prize-card__meta {
@@ -490,6 +503,7 @@ a {
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .prize-card__winner {
@@ -500,7 +514,26 @@ a {
   padding: 0.15rem 0.5rem;
   border-radius: 999px;
   font-size: 0.85rem;
-  margin-left: 0.25rem;
+}
+
+/* framed wrapper for winner chips */
+.prize-card__winners-wrapper {
+  border: 1px solid rgba(0,0,0,0.06);
+  background: rgba(255,255,255,0.6);
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-left: 0;
+  align-self: flex-start;
+}
+
+.prize-card__winners-label {
+  font-size: 0.78rem;
+  color: var(--muted-text);
+  font-weight: 700;
+  letter-spacing: 0.01em;
 }
 
 @media (max-width: 640px) {

@@ -243,16 +243,24 @@ async function renderPrizes(records) {
     const header = document.createElement("div");
     header.className = "prize-card__header";
 
+    // If present, add the provider logo to the header (left side)
     if (providerAssets.logoUrl) {
       const logoBlock = createLogoBlock(providerAssets.logoUrl, providerName || itemName);
       header.appendChild(logoBlock);
       card.classList.add("prize-card--has-logo");
     }
 
+    // Create a title block that holds the title and the winners wrapper stacked vertically.
+    const titleBlock = document.createElement("div");
+    titleBlock.className = "prize-card__title-block";
+
     const heading = document.createElement("h3");
     heading.className = "prize-card__title";
     heading.textContent = itemName;
-    header.appendChild(heading);
+    titleBlock.appendChild(heading);
+
+    // Append the title block into the header (to the right of logo)
+    header.appendChild(titleBlock);
 
     // Apply winners (from winners.csv) by Prize Id, if present.
     const cardId = card.dataset.id;
@@ -1006,14 +1014,43 @@ function applyWinnersToCard(card, tickets, record) {
   card.dataset.ticket = tickets.join(",");
 
   // ensure winners badges
-  let winnersContainer = card.querySelector(".prize-card__winners");
-  if (winnersContainer) {
-    winnersContainer.innerHTML = "";
-  } else {
+  // Ensure a framed winners wrapper exists (with a small subtitle), and populate chips.
+  let winnersWrapper = card.querySelector(".prize-card__winners-wrapper");
+  if (!winnersWrapper) {
+    winnersWrapper = document.createElement("div");
+    winnersWrapper.className = "prize-card__winners-wrapper";
+
+    // Prefer inserting the winners wrapper under the title inside the title block.
+    const titleBlock = card.querySelector(".prize-card__title-block");
+    if (titleBlock) {
+      titleBlock.appendChild(winnersWrapper);
+    } else {
+      // fallback: append to header or content
+      const header = card.querySelector(".prize-card__header");
+      if (header) header.appendChild(winnersWrapper);
+      else {
+        const content = card.querySelector(".prize-card__content");
+        if (content) content.appendChild(winnersWrapper);
+      }
+    }
+  }
+
+  // Create or update the subtitle label
+  let label = winnersWrapper.querySelector(".prize-card__winners-label");
+  if (!label) {
+    label = document.createElement("div");
+    label.className = "prize-card__winners-label";
+    label.textContent = "Winning tickets:";
+    winnersWrapper.appendChild(label);
+  }
+
+  let winnersContainer = winnersWrapper.querySelector(".prize-card__winners");
+  if (!winnersContainer) {
     winnersContainer = document.createElement("div");
     winnersContainer.className = "prize-card__winners";
-    const header = card.querySelector(".prize-card__header");
-    if (header) header.appendChild(winnersContainer);
+    winnersWrapper.appendChild(winnersContainer);
+  } else {
+    winnersContainer.innerHTML = "";
   }
 
   tickets.forEach((t) => {
